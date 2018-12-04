@@ -14,7 +14,7 @@ app.use(cors());
 // app.get ('/' ,(request,response)=> {
 //   response.send('server is on');
 // })
-app.get ('/location', (request,response)=> {
+app.get('/location', (request, response) => {
   const locationData = searchToLatLong(request.query.data);
   response.send(locationData);
 });
@@ -33,15 +33,15 @@ function Location(data) {
 
 }
 
-app.listen(PORT, ()=> console.log(`App is up on ${PORT}`));
+app.listen(PORT, () => console.log(`App is up on ${PORT}`));
 
 
 
 
 
 
-app.get ('/weather', (request,response)=> {
-   
+app.get('/weather', (request, response) => {
+
   const weatherData = searchWeather(request.query.data);
   response.send(weatherData);
 });
@@ -50,16 +50,17 @@ function searchWeather() {
   const darkSkyData = require('./darksky.json');
   const weather = new Weather(darkSkyData.results[0]);
   weather.push(new Weather(darkSkyData.currently))
-   darkSkyData.daily.data.forEach(day=> {
-   weather.push(new Weather(day));
-   })
+  darkSkyData.daily.data.forEach(day => {
+    weather.push(new Weather(day));
+  })
   return weather;
 }
 
 
 
-function Weather (data) {
-   let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-   let day = new Date(data.time*1000);
+function Weather(data) {
+  let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  let day = new Date(data.time * 1000);
   this.time = `${months[day.getMonth()]} ${day.getDate()}`
-  this.forecast =data.summary;
+  this.forecast = data.summary;
+}
